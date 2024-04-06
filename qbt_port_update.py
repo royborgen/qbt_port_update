@@ -33,7 +33,7 @@ def check_config():
 
 #a function that checks if file paths exist
 def file_exist(filepath):
-    log("info", f"verifying the presence of {filepath}")
+    log("info", f"Verifying the presence of {filepath}")
     if os.path.isfile(filepath): 
         log("info", f"Found {filepath}")
         return True
