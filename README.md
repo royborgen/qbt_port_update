@@ -25,11 +25,11 @@ The script automates the following tasks:
     - configparser library installed 
     - os library installed 
     - subprocess library installed
-3. Modify port_update.conf and set correct paths
+3. Modify `port_update.conf` and set correct paths
 
 
 ## Usage 
-The script is executed by running qbt_port_update.py
+The script is executed by running `qbt_port_update.py`
 
 ## Logging
 The creates by default i logfile updates.log in the scripts directory. You can modify the path in the config file. 
