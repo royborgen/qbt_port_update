@@ -20,11 +20,35 @@ The script automates the following tasks:
 ## Installation
 
 1. Clone or download the repository to your local machine.
-
 2. Ensure you have the required Python dependencies installed:
     - Python 3 
     - configparser library installed 
     - os library installed 
     - subprocess library installed
+3. Modify port_update.conf and set correct paths
 
-3. Modify port_update.conf and set correct paths   
+
+## Usage 
+The script is executed by running qbt_port_update.py
+
+## Logging
+The creates by default i logfile updates.log in the scripts directory. You can modify the path in the config file. 
+
+Log sample: 
+```
+06-04-2024 16:30:51 - INFO - Verifying the presence of /srv/gluetun/forwarded_port
+06-04-2024 16:30:51 - INFO - Found /srv/gluetun/forwarded_port
+06-04-2024 16:30:51 - INFO - verifying the presence of /srv/qBittorrent/qBittorrent.conf
+06-04-2024 16:30:51 - INFO - Found /srv/qBittorrent/qBittorrent.conf
+06-04-2024 16:30:51 - INFO - Executing: docker stop qbittorrent
+06-04-2024 16:31:02 - INFO - Container stop successful
+06-04-2024 16:31:02 - INFO - Execution output: qbittorrent
+06-04-2024 16:31:02 - INFO - Fetching port from /srv/gluetun/forwarded_port
+06-04-2024 16:31:02 - INFO - Forward port is 58858
+06-04-2024 16:31:02 - INFO - Reading qBittorrent config file: /srv/qBittorrent/qBittorrent.conf
+06-04-2024 16:31:02 - INFO - Session\Port=58858
+06-04-2024 16:31:02 - INFO - Forward port is unchanged! No changes made to qBittorrent.conf
+06-04-2024 16:31:02 - INFO - Executing: docker start qbittorrent
+06-04-2024 16:31:03 - INFO - Container start successful
+06-04-2024 16:31:03 - INFO - Execution output: qbittorrent
+```
