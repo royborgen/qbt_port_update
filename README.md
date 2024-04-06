@@ -1,4 +1,4 @@
-### qBittorrent Port Update
+# qBittorrent Port Update
 
 This repository contains a Python script designed to automate the integration between Gluetun and qBittorrent Docker containers. Specifically, the script fetches the forward port number from the Gluetun containers config location and updates the qBittorrent container's configuration to use this port.
 I use this script with a cronjob to execute it daily as I have watchtower updating and restarting my containers. This script executes after watchtower to ensure that the forward port updated. 
