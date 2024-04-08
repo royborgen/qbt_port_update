@@ -79,6 +79,7 @@ def update_port():
                 update = True
                 updated_line = 'Session\\Port=' + port + '\n'
                 updated_lines.append(updated_line)
+                log("info", f"Forward port has changed! Updating qBittorrent.conf") 
             else:
                 log("info", f"Forward port is unchanged! No changes made to qBittorrent.conf")    
         else:
