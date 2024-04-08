@@ -36,19 +36,20 @@ The creates by default i logfile updates.log in the scripts directory. You can m
 
 Log sample: 
 ```
-06-04-2024 16:30:51 - INFO - Verifying the presence of /srv/gluetun/forwarded_port
-06-04-2024 16:30:51 - INFO - Found /srv/gluetun/forwarded_port
-06-04-2024 16:30:51 - INFO - verifying the presence of /srv/qBittorrent/qBittorrent.conf
-06-04-2024 16:30:51 - INFO - Found /srv/qBittorrent/qBittorrent.conf
-06-04-2024 16:30:51 - INFO - Executing: docker stop qbittorrent
-06-04-2024 16:31:02 - INFO - Container stop successful
-06-04-2024 16:31:02 - INFO - Execution output: qbittorrent
-06-04-2024 16:31:02 - INFO - Fetching port from /srv/gluetun/forwarded_port
-06-04-2024 16:31:02 - INFO - Forward port is 58858
-06-04-2024 16:31:02 - INFO - Reading qBittorrent config file: /srv/qBittorrent/qBittorrent.conf
-06-04-2024 16:31:02 - INFO - Session\Port=58858
-06-04-2024 16:31:02 - INFO - Forward port is unchanged! No changes made to qBittorrent.conf
-06-04-2024 16:31:02 - INFO - Executing: docker start qbittorrent
-06-04-2024 16:31:03 - INFO - Container start successful
-06-04-2024 16:31:03 - INFO - Execution output: qbittorrent
+08-04-2024 20:51:48 - INFO - Verifying the presence of /srv/gluetun/forwarded_port
+08-04-2024 20:51:48 - INFO - Found /srv/gluetun/forwarded_port
+08-04-2024 20:51:48 - INFO - Verifying the presence of /srv/qBittorrent/qBittorrent.conf
+08-04-2024 20:51:48 - INFO - Found /srv/qBittorrent/qBittorrent.conf
+08-04-2024 20:51:48 - INFO - Fetching port from /srv/gluetun/forwarded_port
+08-04-2024 20:51:48 - INFO - Forward port is 53573
+08-04-2024 20:51:48 - INFO - Reading qBittorrent config file: /srv/qBittorrent/qBittorrent.conf
+08-04-2024 20:51:48 - INFO - Session\Port=51028
+08-04-2024 20:51:48 - INFO - Forward port has changed! Updating qBittorrent.conf
+08-04-2024 20:51:48 - INFO - Executing: docker stop qbittorrent
+08-04-2024 20:51:54 - INFO - Container stop successful
+08-04-2024 20:51:54 - INFO - Execution output: qbittorrent
+08-04-2024 20:51:54 - INFO - Session\Port updated with value 53573
+08-04-2024 20:51:54 - INFO - Executing: docker start qbittorrent
+08-04-2024 20:51:55 - INFO - Container start successful
+08-04-2024 20:51:55 - INFO - Execution output: qbittorrent
 ```
