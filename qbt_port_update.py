@@ -121,11 +121,12 @@ def main():
     # Change the current working directory to the script directory
     os.chdir(script_dir)
     
-
+    log("info", f"qBittorrent Port Update started...")  
     if not check_config():
         SystemExit()
     else: 
         update_port()
+        log("info", f"qBittorrent Port Update completed")  
 
 if __name__ == "__main__":
     main()

@@ -36,6 +36,7 @@ The creates by default i logfile updates.log in the scripts directory. You can m
 
 Log sample: 
 ```
+08-04-2024 20:51:48 - INFO - qBittorrent Port Update started...
 08-04-2024 20:51:48 - INFO - Verifying the presence of /srv/gluetun/forwarded_port
 08-04-2024 20:51:48 - INFO - Found /srv/gluetun/forwarded_port
 08-04-2024 20:51:48 - INFO - Verifying the presence of /srv/qBittorrent/qBittorrent.conf
@@ -52,4 +53,5 @@ Log sample:
 08-04-2024 20:51:54 - INFO - Executing: docker start qbittorrent
 08-04-2024 20:51:55 - INFO - Container start successful
 08-04-2024 20:51:55 - INFO - Execution output: qbittorrent
+08-04-2024 20:51:55 - INFO - qBittorrent Port Update completed
 ```
