@@ -88,11 +88,11 @@ def update_port():
     # Write the modified contents back to the file
     if update == True: 
         docker_qbittorrent("stop")
-        log("info", f"Session\\Port updated with value {port}")           
-        
+               
         with open(qbt_path, 'w') as file:
             file.writelines(updated_lines)
-        
+
+        log("info", f"Session\\Port updated with value {port}") 
         docker_qbittorrent("start")
 
     if found_qbt_port == False: 
