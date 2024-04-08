@@ -108,6 +108,14 @@ def docker_qbittorrent(action):
 
 
 def main():
+    
+    # Get the absolute path to the directory containing the script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Change the current working directory to the script directory
+    os.chdir(script_dir)
+    
+
     if not check_config():
         SystemExit()
     else: 
