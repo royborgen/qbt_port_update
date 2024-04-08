@@ -79,7 +79,6 @@ def update_port():
                 update = True
                 updated_line = 'Session\\Port=' + port + '\n'
                 updated_lines.append(updated_line)
-                log("info", f"Session\\Port updated with value {port}")   
             else:
                 log("info", f"Forward port is unchanged! No changes made to qBittorrent.conf")    
         else:
@@ -87,8 +86,14 @@ def update_port():
     
     # Write the modified contents back to the file
     if update == True: 
+        docker_qbittorrent("stop")
+        log("info", f"Session\\Port updated with value {port}")           
+        
         with open(qbt_path, 'w') as file:
             file.writelines(updated_lines)
+        
+        docker_qbittorrent("start")
+
     if found_qbt_port == False: 
         log("error", f"Could not find Session\\Port in qBittorrent.conf")   
 
@@ -119,9 +124,7 @@ def main():
     if not check_config():
         SystemExit()
     else: 
-        docker_qbittorrent("stop")
         update_port()
-        docker_qbittorrent("start")
 
 if __name__ == "__main__":
     main()
