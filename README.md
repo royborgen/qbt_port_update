@@ -9,11 +9,11 @@ The script automates the following tasks:
 
 1. Read path to gluetun's forward_port file and qBitTorrent's qBittorrent.conf file.
 2. Verify that the files exist
-3. Execute: `docker stop qbittorrent`
-4. Fetch port from `forwarded_port`
+3. Fetch port from `forwarded_port`
 5. Reading qBittorrent.conf and fetch `Session\Port`
 6. Compare the port from both files
-7. Update `qBittorrent.conf` if needed.
+4. If port has changed it will execute: `docker stop qbittorrent`
+7. Update `qBittorrent.conf` with the new forweard port
 8. Execute: `docker start qbittorrent`
 
 
