@@ -32,7 +32,7 @@ The script automates the following tasks:
 The script is executed by running `qbt_port_update.py`
 
 ## Logging
-The creates by default i logfile updates.log in the scripts directory. You can modify the path in the config file. 
+The script creates by default i logfile updates.log in the scripts directory. You can modify the path in the config file. 
 
 Log sample: 
 ```
