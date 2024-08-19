@@ -55,3 +55,12 @@ Log sample:
 08-04-2024 20:51:55 - INFO - Execution output: qbittorrent
 08-04-2024 20:51:55 - INFO - qBittorrent Port Update completed
 ```
+
+## Cronjon example: 
+To create a cronjob, run the command `crontab -e` as a user that has permissions to restart containers. 
+Example: 
+```
+15 *    * * *        /usr/bin/python3 /home/user/scripts/qbt_port_update/qbt_port_update.py
+u/reboot              /bin/sleep 120 ; /usr/bin/python3 /home/user/scripts/qbt_port_update/qbt_port_update.py
+```
+In the above example the script will execute every 15 minutes and at reboot after 120 seconds (to allow services to start completely)
