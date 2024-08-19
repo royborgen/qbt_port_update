@@ -58,8 +58,9 @@ Log sample:
 
 ## Cronjon example: 
 To create a cronjob, run the command `crontab -e` as a user that has permissions to restart containers. 
-Example: 
-```
+
+
+```crontab example: 
 15 *    * * *        /usr/bin/python3 /home/user/scripts/qbt_port_update/qbt_port_update.py
 u/reboot              /bin/sleep 120 ; /usr/bin/python3 /home/user/scripts/qbt_port_update/qbt_port_update.py
 ```
