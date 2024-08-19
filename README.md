@@ -25,7 +25,7 @@ The script automates the following tasks:
     - configparser library installed 
     - os library installed 
     - subprocess library installed
-3. Modify `port_update.conf` and set **paths** for gluetun forward_port and qBittorrent.conf. You will also need to set **container_id** under the docker section. Here you can use container id **or** the name. 
+3. Modify `port_update.conf` and set **paths** for gluetun **forward_port** and **qBittorrent.conf**. You will also need to set **container_id** under the docker section. Here you can use container id **or** the name. 
 
 
 ## Usage 
