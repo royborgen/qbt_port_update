@@ -47,6 +47,7 @@ def update_port():
     config.read("port_update.conf")
     qbt_path = config["paths"]["qbittorrent"]
     gluetun_path = config["paths"]["gluetun"]
+    container_id = config["docker"]["container_id"]
 
     log("info", f"Fetching port from {gluetun_path}")
     with open(gluetun_path, 'r') as file:
@@ -87,21 +88,21 @@ def update_port():
     
     # Write the modified contents back to the file
     if update == True: 
-        docker_qbittorrent("stop")
+        docker_qbittorrent("stop", container_id)
                
         with open(qbt_path, 'w') as file:
             file.writelines(updated_lines)
 
         log("info", f"Session\\Port updated with value {port}") 
-        docker_qbittorrent("start")
+        docker_qbittorrent("start", container_id)
 
     if found_qbt_port == False: 
         log("error", f"Could not find Session\\Port in qBittorrent.conf")   
 
-def docker_qbittorrent(action):
-    command = ["docker", action, "qbittorrent"]
+def docker_qbittorrent(action, container_id):
+    command = ["docker", action, container_id]
     # Run the command
-    log("info", f"Executing: docker {action} qbittorrent") 
+    log("info", f"Executing: docker {action} {container_id}") 
     result = subprocess.run(command, capture_output=True, text=True)
 
     # Check the result
