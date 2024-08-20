@@ -17,7 +17,8 @@ def log(log_type, line):
         currtime = datetime.now().strftime(timeformat)
         with open(logfile, 'a', newline='') as f:
             f.write(f"{currtime} - {log_type.upper()} - {line}\n")
-        print(f"{log_type.upper()} - {line}")
+    
+    print(f"{log_type.upper()} - {line}")
 
 #A function that checks values in config file
 def check_config():
@@ -131,3 +132,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
