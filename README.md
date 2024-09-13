@@ -13,7 +13,7 @@ The script automates the following tasks:
 5. Reading qBittorrent.conf and fetch `Session\Port`
 6. Compare the port from both files
 4. If port has changed it will execute: `docker stop qbittorrent`
-7. Update `qBittorrent.conf` with the new forweard port
+7. Update `qBittorrent.conf` with the new forward port
 8. Execute: `docker start qbittorrent`
 
 
