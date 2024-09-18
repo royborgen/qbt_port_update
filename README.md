@@ -64,4 +64,4 @@ Crontab example:
 15 *    * * *        /usr/bin/python3 /home/user/scripts/qbt_port_update/qbt_port_update.py
 @reboot              /bin/sleep 120 ; /usr/bin/python3 /home/user/scripts/qbt_port_update/qbt_port_update.py
 ```
-In the above example the script will execute every hour at 15 minutes pat the hour. I will also execute at boot after 120 seconds (delay is to allow services to start completely)
+In the above example the script will execute every hour at 15 min past the hour, every hour. It will also execute at boot after 120 seconds (delay is to allow services to start completely)
