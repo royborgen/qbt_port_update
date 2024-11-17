@@ -6,28 +6,57 @@ from datetime import datetime
 
 #A functon that prints and logs to file
 def log(log_type, line):
-    config = configparser.ConfigParser()
-    config.read("port_update.conf")
-   
-    createLogFile = config["logging"]["createLogFile"]
-    if createLogFile == "yes": 
+    envvars = check_envvars()
+    
+    if envvars: 
+        createLogFile = os.environ['CREATE_LOG_FILE']
+        logfile = os.environ['LOGFILE']
+        timeformat = os.environ['LOGTIMEFORMAT']
+    else: 
+        config = configparser.ConfigParser()
+        config.read("./port_update.conf")
+       
+        createLogFile = config["logging"]["createLogFile"]
         timeformat = config["logging"]["logTimeFormat"]
         logfile = config["logging"]["logfile"]
     
+    if createLogFile == "yes": 
+        
         currtime = datetime.now().strftime(timeformat)
         with open(logfile, 'a', newline='') as f:
             f.write(f"{currtime} - {log_type.upper()} - {line}\n")
+        
         print(f"{log_type.upper()} - {line}")
+
+#a function that checks if enviroment variables are set
+def check_envvars(): 
+    variables = ["PATH_GLUETUN", "PATH_QBITTORRENT", "QBT_CONTAINER_ID", "CREATE_LOG_FILE", "LOGFILE", "LOGTIMEFORMAT"]
+    try:
+
+        for var in variables: 
+            if not os.environ[var]:
+                return False
+        return True
+    except:
+        return False
+
 
 #A function that checks values in config file
 def check_config():
-    config = configparser.ConfigParser()
-    config.read("port_update.conf")
-    qbt_path = config["paths"]["qbittorrent"]
-    gluetun_path = config["paths"]["gluetun"]
-       
-    result = file_exist(gluetun_path)
-    result = file_exist(qbt_path)   
+    #checking if path to gluetun and qbittorrent config is set in enviroment variable
+    envvars = check_envvars()
+    if envvars:
+        result = file_exist(os.environ['PATH_GLUETUN'])
+        result = file_exist(os.environ['PATH_QBITTORRENT'])
+    #if not, read from config file and check 
+    else: 
+        config = configparser.ConfigParser()
+        config.read("./port_update.conf")
+        qbt_path = config["paths"]["qbittorrent"]
+        gluetun_path = config["paths"]["gluetun"]
+           
+        result = file_exist(gluetun_path)
+        result = file_exist(qbt_path)   
 
     return result
 
@@ -43,11 +72,20 @@ def file_exist(filepath):
     
 #The function that updates the port. It reads both config files and compares value and updates.    
 def update_port():
-    config = configparser.ConfigParser()
-    config.read("port_update.conf")
-    qbt_path = config["paths"]["qbittorrent"]
-    gluetun_path = config["paths"]["gluetun"]
-
+    #chech if enviroment variables are set
+    envvars = check_envvars()
+    if envvars: 
+        gluetun_path = os.environ['PATH_GLUETUN']
+        qbt_path = os.environ['PATH_QBITTORRENT']
+        container_id = os.environ['QBT_CONTAINER_ID']
+    else: 
+        #if not, read from config file and check 
+        config = configparser.ConfigParser()
+        config.read("./port_update.conf")
+        qbt_path = config["paths"]["qbittorrent"]
+        gluetun_path = config["paths"]["gluetun"]
+        container_id = config["docker"]["container_id"]
+    
     log("info", f"Fetching port from {gluetun_path}")
     with open(gluetun_path, 'r') as file:
         port = str(file.readline().strip())
@@ -87,21 +125,21 @@ def update_port():
     
     # Write the modified contents back to the file
     if update == True: 
-        docker_qbittorrent("stop")
+        docker_qbittorrent("stop", container_id)
                
         with open(qbt_path, 'w') as file:
             file.writelines(updated_lines)
 
         log("info", f"Session\\Port updated with value {port}") 
-        docker_qbittorrent("start")
+        docker_qbittorrent("start", container_id)
 
     if found_qbt_port == False: 
         log("error", f"Could not find Session\\Port in qBittorrent.conf")   
 
-def docker_qbittorrent(action):
-    command = ["docker", action, "qbittorrent"]
+def docker_qbittorrent(action, container_id):
+    command = ["docker", action, container_id]
     # Run the command
-    log("info", f"Executing: docker {action} qbittorrent") 
+    log("info", f"Executing: docker {action} {container_id}") 
     result = subprocess.run(command, capture_output=True, text=True)
 
     # Check the result
