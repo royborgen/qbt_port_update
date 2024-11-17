@@ -30,10 +30,9 @@ def log(log_type, line):
 
 #a function that checks if enviroment variables are set
 def check_envvars(): 
-    variables = ["PATH_GLUETUN", "PATH_QBITTORRENT", "QBT_CONTAINER_ID", "CREATE_LOG_FILE", "LOGFILE", "LOGTIMEFORMAT"]
+    envvars = ["PATH_GLUETUN", "PATH_QBITTORRENT", "QBT_CONTAINER_ID", "CREATE_LOG_FILE", "LOGFILE", "LOGTIMEFORMAT"]
     try:
-
-        for var in variables: 
+        for var in envvars: 
             if not os.environ[var]:
                 return False
         return True
