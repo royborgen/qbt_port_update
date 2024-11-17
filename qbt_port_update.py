@@ -13,7 +13,7 @@ def log(log_type, line):
         logfile = os.environ['LOGFILE']
         timeformat = os.environ['LOGTIMEFORMAT']
     else: 
-        config = configparser.ConfigParser()
+        config = configparser.ConfigParser(interpolation=None)
         config.read("./port_update.conf")
        
         createLogFile = config["logging"]["createLogFile"]
