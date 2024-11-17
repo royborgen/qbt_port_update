@@ -25,7 +25,16 @@ The script automates the following tasks:
     - configparser library installed 
     - os library installed 
     - subprocess library installed
-3. Modify `port_update.conf` and set correct paths
+3. Modify `port_update.conf` and set correct paths. 
+
+## Optional Config
+Instead of using port_update.config, you can set needed enviroment variables. 
+See setenvs.sh for examples of what variables that needs to be set. 
+Execute the shell script but running `. ./setenvs.sh`
+
+Instead of using `port_update.config`, you can set the needed configuration parameters as environment variables.
+The file `setenvs.sh` contains all needed variables. Modify it as needed an execute the script by running `. ./setenvs.sh`.
+The leading dot (.) ensures that the script is sourced into the current shell session, making the environment avaialbe for the python script. 
 
 
 ## Usage 
