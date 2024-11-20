@@ -31,7 +31,7 @@ The script automates the following tasks:
 Instead of using `port_update.config`, you can set the needed configuration parameters as environment variables.
 The file `setenvs.sh` contains all needed variables. Modify it as needed an execute the script by running 
 `. ./setenvs.sh`. The leading dot (.) ensures that the script is sourced into the current shell session, making 
-the environment avaialbe for the python script. 
+the environment available for the python script. 
 
 
 ## Usage 
