@@ -1,0 +1,6 @@
+# /etc/cron.d/qbt_port_update
+# Cron job format: minute hour day month day-of-week user command
+SHELL=/bin/bash
+BASH_ENV=/etc/environment
+
+*/15 * * * *   /venv/bin/python /usr/local/bin/qbt_port_update.py >> /proc/1/fd/1 2>> /proc/1/fd/2
