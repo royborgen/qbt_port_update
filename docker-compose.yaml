@@ -1,0 +1,16 @@
+services:
+  qbt-port-update:
+    image: royborgen/qbt-port-update:latest
+    container_name: qbt-port-update
+    volumes:
+      - /srv/qbt-port-update:/config
+      - /srv/gluetun/forwarded_port:/config/gluetun/forwarded_port:rw
+      - /srv/qBittorrent/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf:rw
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - TZ=Europe/Oslo
+      - QBT_CONTAINER_ID=qbittorrent
+      - CREATE_LOG_FILE=yes
+      - LOGTIMEFORMAT=%d-%m-%Y %H:%M:%S
+      - CRON_SCHEDULE=*/15 * * * * 
+    restart: unless-stopped
