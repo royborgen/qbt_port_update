@@ -14,7 +14,7 @@ chmod 0644 /etc/cron.d/qbt_port_update
 sed -i "s|^.*/venv|$CRON_SCHEDULE   /venv|" /etc/cron.d/qbt_port_update
 
 # Write environment variables to a file
-printenv | grep -E "GLUETUN|QBITTORRENT|QBT|LOG|CRON|TZ|PUID|PGID" | sort > /etc/environment
+printenv | grep -E "GLUETUN|QBITTORRENT|QBT|LOG|CRON|TZ" | sort > /etc/environment
 
 # Ensure cron jobs can see the environment
 chmod 0644 /etc/environment
