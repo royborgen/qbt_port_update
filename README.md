@@ -79,8 +79,8 @@ PGID=1000
 - `CRON_SCHEDULE` require the use of correctly formated cron job. 
 - `LOGTIMEFORMAT` controls the time format of the logfile. This can be adjusted to your liking. 
 - `CONTAINER_ID` must container name or ID of the qBittorrent container you are running. This is needed so that we can restart the container.
-- `TZ` allows you to set the time zone displayed in the log. For a complete overview of timezones, see the section `TZ identifiers` on [list of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) available on Wikipedia. 
--`PUID` and `PGID` allow you to control which user and group that owns the config folder and the `qbt_port_update.log` file. If not provided, the default value of `0` (root) is used, ensuring that only the root user has ownership and access. This is ideal when running containers with different users on the system to avoid conflicting ownership. If you want to assign ownership to a specific non-root user (e.g., `1000`), you can provide the respective PUID and PGID values.
+- `TZ` allows you to set the time zone displayed in the log. For a complete overview of timezones, see the section `TZ identifiers` on [list of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) available on Wikipedia.
+- `PUID` and `PGID` allow you to control which user and group that owns the config folder and the `qbt_port_update.log` file. If not provided, the default value of `0` (root) is used, ensuring that only the root user has ownership and access. This is ideal when running containers with different users on the system to avoid conflicting ownership. If you want to assign ownership to a specific non-root user (e.g., `1000`), you can provide the respective PUID and PGID values.
 
 
 It is recommended to stay away from changing `PATH_GLUETUN` and `PATH_QBITTORRENT`. Instead of changing these you should edit the container volumes as this controls the location of the config file of the Gluetun and qBittorrent container. 
