@@ -33,6 +33,11 @@ The file `setenvs.sh` contains all needed variables. Modify it as needed an exec
 `. ./setenvs.sh`. The leading dot (.) ensures that the script is sourced into the current shell session, making 
 the environment avaialbe for the python script. 
 
+
+## Usage 
+The script is executed by running `qbt_port_update.py`
+
+
 ## Run in Docker container
 ```
 docker run -d \
@@ -69,9 +74,6 @@ PATH_QBITTORRENT=/config/qBittorrent/qBittorrent.conf
 - `CONTAINER_ID` must container name or ID of the qBittorrent container you are running. This is needed so that we can restart the container. 
 It is recommended to stay away from changing `PATH_GLUETUN` and `PATH_QBITTORRENT`. Instead of changing these you should edit the container volumes as this controls the location of the config file of the Gluetun and qBittorrent container. 
 
-
-## Usage 
-The script is executed by running `qbt_port_update.py`
 
 ## Logging
 The creates by default i logfile updates.log in the scripts directory. You can modify the path in the config file. 
