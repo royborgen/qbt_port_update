@@ -1,7 +1,8 @@
-#!/usr/bin/python3
+#!./venv/bin/python3
+import sys
 import os
 import configparser
-import subprocess
+import docker
 from datetime import datetime
 
 #A functon that prints and logs to file
@@ -20,13 +21,13 @@ def log(log_type, line):
         timeformat = config["logging"]["logTimeFormat"]
         logfile = config["logging"]["logfile"]
     
+    currtime = datetime.now().strftime(timeformat)
+    print(f"{currtime} - {log_type.upper()} - {line}")
+    
     if createLogFile == "yes": 
-        
-        currtime = datetime.now().strftime(timeformat)
         with open(logfile, 'a', newline='') as f:
             f.write(f"{currtime} - {log_type.upper()} - {line}\n")
         
-        print(f"{log_type.upper()} - {line}")
 
 #a function that checks if enviroment variables are set
 def check_envvars(): 
@@ -135,22 +136,60 @@ def update_port():
     if found_qbt_port == False: 
         log("error", f"Could not find Session\\Port in qBittorrent.conf")   
 
-def docker_qbittorrent(action, container_id):
-    command = ["docker", action, container_id]
-    # Run the command
-    log("info", f"Executing: docker {action} {container_id}") 
-    result = subprocess.run(command, capture_output=True, text=True)
 
-    # Check the result
-    if result.returncode == 0:
-        log("info", f"Container {action} successful")
-        log("info", f"Execution output: {result.stdout.strip()}")
-    else:
-        log("error", f"Could not {action} container")
-        log("error", f"Execution output: {result.stderr.strip()}")
+#a function that stops, starts or restarts a docker containers
+def docker_qbittorrent(action, container_id):
+    client = docker.DockerClient(base_url='unix:///var/run/docker.sock')
+
+    try:
+        # Restart the container
+        container = client.containers.get(container_id)
+        match action: 
+            case "stop":
+                log("info", f"Stopping container {container_id}") 
+                container.stop()
+                log("info", f"Container successfully stopped!")
+            case "start":
+                log("info", f"Starting container {container_id}") 
+                container.start()
+                log("info", f"Container successfully started!")
+            case "restart":
+                log("info", f"Restarting container {container_id}") 
+                container.restart()
+                log("info", f"Container successfully restarted!")
+    
+    except docker.errors.NotFound:
+        log("error", f"Container {container_id} not found")
+    except Exception as e:
+        log("error", f"Error {action}ing container {container_id}: {str(e)}")
 
 
 def main():
+    script_name = "qBittorrent Port Update"
+    version = 2.0
+
+    if len(sys.argv) !=1:
+        if sys.argv[1] == "--help" or sys.argv[1] == "-h":
+            print(f"Usage: {sys.argv[0]} [OPTION]")
+            print("Fetches the forward port number from a running Gluetun container and")
+            print("dynamically updates the qBittorrent container's configuration to use this port.")
+            print("")
+            print("-v, --version   Display version information")
+            print("-h, --help      Display this help text")
+            print("")
+            exit()
+
+        if  sys.argv[1] == "--version" or sys.argv[1] == "-v":
+            print(f"{script_name}")
+            print(f"v.{version}")
+            print("")
+            exit()
+
+        print(f"Usage: {sys.argv[0]} [OPTION]")
+        print("Fetches the forward port number from a running Gluetun container and")
+        print("dynamically updates the qBittorrent container's configuration to use this port.")
+        print("")
+        exit()
     
     # Get the absolute path to the directory containing the script
     script_dir = os.path.dirname(os.path.abspath(__file__))
