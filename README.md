@@ -80,7 +80,7 @@ The creates by default i logfile updates.log in the scripts directory. You can m
 
 Log sample: 
 ```
-9-11-2024 23:32:18 - INFO - qBittorrent Port Update started...
+19-11-2024 23:32:18 - INFO - qBittorrent Port Update started...
 19-11-2024 23:32:18 - INFO - Verifying the presence of /config/gluetun/forwarded_port
 19-11-2024 23:32:18 - INFO - Found /config/gluetun/forwarded_port
 19-11-2024 23:32:18 - INFO - Verifying the presence of /config/qBittorrent/qBittorrent.conf
