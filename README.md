@@ -24,7 +24,7 @@ The script automates the following tasks:
     - Python 3 
     - configparser library installed 
     - os library installed 
-    - subprocess library installed
+    - docker library installed
 3. Modify `port_update.conf` and set correct paths. 
 
 ## Optional Config
