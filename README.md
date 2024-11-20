@@ -73,7 +73,7 @@ TZ=Europe/Oslo
 - `CRON_SCHEDULE` require the use of correctly formated cron job. 
 - `LOGTIMEFORMAT` controls the time format of the logfile. This can be adjusted to your liking. 
 - `CONTAINER_ID` must container name or ID of the qBittorrent container you are running. This is needed so that we can restart the container.
-- `TZ` allows you to set the time zone displayed in the log. For a complete overview of timezones, see the section `TZ identifiers` on [list of tz database time zones]: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones available on Wikipedia. 
+- `TZ` allows you to set the time zone displayed in the log. For a complete overview of timezones, see the section `TZ identifiers` on [list of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) available on Wikipedia. 
 
 It is recommended to stay away from changing `PATH_GLUETUN` and `PATH_QBITTORRENT`. Instead of changing these you should edit the container volumes as this controls the location of the config file of the Gluetun and qBittorrent container. 
 
