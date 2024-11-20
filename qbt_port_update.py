@@ -166,7 +166,7 @@ def docker_qbittorrent(action, container_id):
 
 def main():
     script_name = "qBittorrent Port Update"
-    version = 2.0
+    version = "2.0.1"
 
     if len(sys.argv) !=1:
         if sys.argv[1] == "--help" or sys.argv[1] == "-h":
