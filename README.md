@@ -33,6 +33,42 @@ The file `setenvs.sh` contains all needed variables. Modify it as needed an exec
 `. ./setenvs.sh`. The leading dot (.) ensures that the script is sourced into the current shell session, making 
 the environment avaialbe for the python script. 
 
+## Run in Docker container
+```
+docker run -d \
+  --name qbt-port-update \
+  -v /srv/qbt-port-update:/config \
+  -v /srv/gluetun/forwarded_port:/config/gluetun/forwarded_port:rw \
+  -v /srv/qBittorrent/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf:rw \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -e TZ=Europe/Oslo \
+  -e QBT_CONTAINER_ID=qbittorrent \
+  -e CREATE_LOG_FILE=yes \
+  -e LOGTIMEFORMAT=%d-%m-%Y\ %H:%M:%S \
+  -e CRON_SCHEDULE=*/15\ *\ *\ *\ * \
+  --restart unless-stopped \
+  royborgen/qbt-port-update:latest
+```
+
+Se `docker-compose.yaml` if you wish to use docker compose to start the container
+
+### Supported enviroment variables
+```
+CREATE_LOG_FILE=yes/no
+CRON_SCHEDULE=*/15 * * * *  
+LOGFILE=/config/qbt_port_update.log
+LOGTIMEFORMAT=%d-%m-%Y %H:%M:%S 
+QBT_CONTAINER_ID=qbittorrent
+PATH_GLUETUN=/config/gluetun/forwarded_port
+PATH_QBITTORRENT=/config/qBittorrent/qBittorrent.conf
+```
+
+- `CREATE_LOG_FILE` should only container `yes` or `no`
+- `CRON_SCHEDULE` require the use of correctly formated cron job. 
+- `LOGTIMEFORMAT` controls the time format of the logfile. This can be adjusted to your liking. 
+- `CONTAINER_ID` must container name or ID of the qBittorrent container you are running. This is needed so that we can restart the container. 
+It is recommended to stay away from changing `PATH_GLUETUN` and `PATH_QBITTORRENT`. Instead of changing these you should edit the container volumes as this controls the location of the config file of the Gluetun and qBittorrent container. 
+
 
 ## Usage 
 The script is executed by running `qbt_port_update.py`
