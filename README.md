@@ -80,22 +80,31 @@ The creates by default i logfile updates.log in the scripts directory. You can m
 
 Log sample: 
 ```
-08-04-2024 20:51:48 - INFO - qBittorrent Port Update started...
-08-04-2024 20:51:48 - INFO - Verifying the presence of /srv/gluetun/forwarded_port
-08-04-2024 20:51:48 - INFO - Found /srv/gluetun/forwarded_port
-08-04-2024 20:51:48 - INFO - Verifying the presence of /srv/qBittorrent/qBittorrent.conf
-08-04-2024 20:51:48 - INFO - Found /srv/qBittorrent/qBittorrent.conf
-08-04-2024 20:51:48 - INFO - Fetching port from /srv/gluetun/forwarded_port
-08-04-2024 20:51:48 - INFO - Forward port is 53573
-08-04-2024 20:51:48 - INFO - Reading qBittorrent config file: /srv/qBittorrent/qBittorrent.conf
-08-04-2024 20:51:48 - INFO - Session\Port=51028
-08-04-2024 20:51:48 - INFO - Forward port has changed! Updating qBittorrent.conf
-08-04-2024 20:51:48 - INFO - Executing: docker stop qbittorrent
-08-04-2024 20:51:54 - INFO - Container stop successful
-08-04-2024 20:51:54 - INFO - Execution output: qbittorrent
-08-04-2024 20:51:54 - INFO - Session\Port updated with value 53573
-08-04-2024 20:51:54 - INFO - Executing: docker start qbittorrent
-08-04-2024 20:51:55 - INFO - Container start successful
-08-04-2024 20:51:55 - INFO - Execution output: qbittorrent
-08-04-2024 20:51:55 - INFO - qBittorrent Port Update completed
+9-11-2024 23:32:18 - INFO - qBittorrent Port Update started...
+19-11-2024 23:32:18 - INFO - Verifying the presence of /config/gluetun/forwarded_port
+19-11-2024 23:32:18 - INFO - Found /config/gluetun/forwarded_port
+19-11-2024 23:32:18 - INFO - Verifying the presence of /config/qBittorrent/qBittorrent.conf
+19-11-2024 23:32:18 - INFO - Found /config/qBittorrent/qBittorrent.conf
+19-11-2024 23:32:18 - INFO - Fetching port from /config/gluetun/forwarded_port
+19-11-2024 23:32:18 - INFO - Forward port is 36072
+19-11-2024 23:32:18 - INFO - Reading qBittorrent config file: /config/qBittorrent/qBittorrent.conf
+19-11-2024 23:32:18 - INFO - Session\Port=46575
+19-11-2024 23:32:18 - INFO - Forward port has changed! Updating qBittorrent.conf
+19-11-2024 23:32:18 - INFO - Stopping container qbittorrent
+19-11-2024 23:32:30 - INFO - Container successfully stopped!
+19-11-2024 23:32:30 - INFO - Session\Port updated with value 36072
+19-11-2024 23:32:30 - INFO - Starting container qbittorrent
+19-11-2024 23:32:30 - INFO - Container successfully started!
+19-11-2024 23:32:30 - INFO - qBittorrent Port Update completed
+20-11-2024 02:34:25 - INFO - qBittorrent Port Update started...
+20-11-2024 02:34:25 - INFO - Verifying the presence of /srv/gluetun/forwarded_port
+20-11-2024 02:34:25 - INFO - Found /srv/gluetun/forwarded_port
+20-11-2024 02:34:25 - INFO - Verifying the presence of /srv/qBittorrent/qBittorrent.conf
+20-11-2024 02:34:25 - INFO - Found /srv/qBittorrent/qBittorrent.conf
+20-11-2024 02:34:25 - INFO - Fetching port from /srv/gluetun/forwarded_port
+20-11-2024 02:34:25 - INFO - Forward port is 36072
+20-11-2024 02:34:25 - INFO - Reading qBittorrent config file: /srv/qBittorrent/qBittorrent.conf
+20-11-2024 02:34:25 - INFO - Session\Port=36072
+20-11-2024 02:34:25 - INFO - Forward port is unchanged! No changes made to qBittorrent.conf
+20-11-2024 02:34:25 - INFO - qBittorrent Port Update completed
 ```
