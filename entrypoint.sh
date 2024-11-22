@@ -26,10 +26,10 @@ crontab /etc/cron.d/qbt_port_update
 cron
 
 # Run the Python script immediately
-echo "---------------------------------------------------------------------------------------------------"
+echo "-----------------------------------------------------------------------------------------------------"
 /venv/bin/python /usr/local/bin/qbt_port_update.py -v
 cat /etc/environment
-echo "---------------------------------------------------------------------------------------------------"
+echo "-----------------------------------------------------------------------------------------------------"
 /venv/bin/python /usr/local/bin/qbt_port_update.py >> /proc/1/fd/1 2>> /proc/1/fd/2
 
 # Keep the container running by tailing /dev/null
