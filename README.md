@@ -86,8 +86,8 @@ QBT_CONTAINER_ID=qbittorrent
 - `TZ` allows you to set the time zone displayed in the log. For a complete overview of timezones, see the section `TZ identifiers` on [list of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) available on Wikipedia.
 - `PUID` and `PGID` allow you to control which user and group that owns the config folder and the `qbt_port_update.log` file. If not provided, the default value of `0` (root) is used, ensuring that only the root user has ownership and access. This is ideal when running containers with different users on the system to avoid conflicting ownership. If you want to assign ownership to a specific non-root user (e.g., `1000`), you can provide the respective PUID and PGID values.
 
->**Note**<br>
-Control Server IPStarting from Gluetun v.4.0.0, the forwarded_port file will be deprecated. From this version we must fetch the forwarded port from the Gluetun Control Server. See [Gluetun GitHub](https://github.com/qdm12/gluetun-wiki/blob/main/setup/advanced/vpn-port-forwarding.md) for more information. The feature is already implemented in qBittorrent Port Update. 
+>[Note]<br>
+>Control Server IPStarting from Gluetun v.4.0.0, the forwarded_port file will be deprecated. From this version we must fetch the forwarded port from the Gluetun Control Server. See [Gluetun GitHub](https://github.com/qdm12/gluetun-wiki/blob/main/setup/>advanced/vpn-port-forwarding.md) for more information. The feature is already implemented in qBittorrent Port Update. 
 
 >**_CAUTION:**
 If you are running qBittorrent Port Update in docker, it is recommended leave `PATH_GLUETUN` and `PATH_QBITTORRENT` with their default value. Instead of changing these you should edit the container volumes as these control the location of the qBittorrent config file and the Gluetun forwarded_port filer. 
