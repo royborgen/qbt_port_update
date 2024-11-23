@@ -89,6 +89,7 @@ QBT_CONTAINER_ID=qbittorrent
 >[!Note]<br>
 >Starting from Gluetun v.4.0.0, the forwarded_port file will be deprecated. From this version we must fetch the forwarded port from the Gluetun Control Server. See [Gluetun GitHub](https://github.com/qdm12/gluetun-wiki/blob/main/setup/>advanced/vpn-port-forwarding.md) for more information. The feature is already implemented in qBittorrent Port Update by utilizing `GLUETUN_IP` and `GLUETUN_PORT`. 
 
+
 >[!CAUTION]<br>
 If you are running qBittorrent Port Update in docker, it is recommended leave `PATH_GLUETUN` and `PATH_QBITTORRENT` with their default value. Instead of changing these you should edit the container volumes as these control the location of the qBittorrent config file and the Gluetun forwarded_port file. 
 
