@@ -65,25 +65,32 @@ Se `docker-compose.yaml` if you wish to use docker compose to start the containe
 ```
 CREATE_LOG_FILE=yes/no
 CRON_SCHEDULE=*/15 * * * *  
+GLUETUN_IP=127.0.0.1
+GLUETUN_PORT=8000
 LOGFILE=/config/qbt_port_update.log
 LOGTIMEFORMAT=%d-%m-%Y %H:%M:%S 
-QBT_CONTAINER_ID=qbittorrent
 PATH_GLUETUN=/config/gluetun/forwarded_port
 PATH_QBITTORRENT=/config/qBittorrent/qBittorrent.conf
-TZ=Europe/Oslo
 PUID=1000
 PGID=1000
+TZ=Europe/Oslo
+QBT_CONTAINER_ID=qbittorrent
 ```
 
 - `CREATE_LOG_FILE` should only container `yes` or `no`
 - `CRON_SCHEDULE` require the use of correctly formated cron job. 
+- `GLUETUN_IP` Required from Gluetun 4.0.0. Needs to contain Gluetun server IP.  
+- `GLUETUN_PORT` is requered from Gluetun v.4.0.0. Need to contain the Gluetun Control Server listening port. `Default port is 8000`. 
 - `LOGTIMEFORMAT` controls the time format of the logfile. This can be adjusted to your liking. 
 - `CONTAINER_ID` must container name or ID of the qBittorrent container you are running. This is needed so that we can restart the container.
 - `TZ` allows you to set the time zone displayed in the log. For a complete overview of timezones, see the section `TZ identifiers` on [list of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) available on Wikipedia.
 - `PUID` and `PGID` allow you to control which user and group that owns the config folder and the `qbt_port_update.log` file. If not provided, the default value of `0` (root) is used, ensuring that only the root user has ownership and access. This is ideal when running containers with different users on the system to avoid conflicting ownership. If you want to assign ownership to a specific non-root user (e.g., `1000`), you can provide the respective PUID and PGID values.
 
+[!NOTE]
+Control Server IPStarting from Gluetun v.4.0.0, the forwarded_port file will be deprecated. From this version we must fetch the forwarded port from the Gluetun Control Server. See [Gluetun GitHub](https://github.com/qdm12/gluetun-wiki/blob/main/setup/advanced/vpn-port-forwarding.md) for more information. The feature is already implemented in qBittorrent Port Update. 
 
-It is recommended to stay away from changing `PATH_GLUETUN` and `PATH_QBITTORRENT`. Instead of changing these you should edit the container volumes as this controls the location of the config file of the Gluetun and qBittorrent container. 
+[!CAUTION]
+If you are running qBittorrent Port Update in docker, it is recommended leave `PATH_GLUETUN` and `PATH_QBITTORRENT` with their default value. Instead of changing these you should edit the container volumes as these control the location of the qBittorrent config file and the Gluetun forwarded_port filer. 
 
 
 ## Logging
@@ -91,31 +98,30 @@ The creates by default i logfile updates.log in the scripts directory. You can m
 
 Log sample: 
 ```
-19-11-2024 23:32:18 - INFO - qBittorrent Port Update started...
-19-11-2024 23:32:18 - INFO - Verifying the presence of /config/gluetun/forwarded_port
-19-11-2024 23:32:18 - INFO - Found /config/gluetun/forwarded_port
-19-11-2024 23:32:18 - INFO - Verifying the presence of /config/qBittorrent/qBittorrent.conf
-19-11-2024 23:32:18 - INFO - Found /config/qBittorrent/qBittorrent.conf
-19-11-2024 23:32:18 - INFO - Fetching port from /config/gluetun/forwarded_port
-19-11-2024 23:32:18 - INFO - Forward port is 36072
-19-11-2024 23:32:18 - INFO - Reading qBittorrent config file: /config/qBittorrent/qBittorrent.conf
-19-11-2024 23:32:18 - INFO - Session\Port=46575
-19-11-2024 23:32:18 - INFO - Forward port has changed! Updating qBittorrent.conf
-19-11-2024 23:32:18 - INFO - Stopping container qbittorrent
-19-11-2024 23:32:30 - INFO - Container successfully stopped!
-19-11-2024 23:32:30 - INFO - Session\Port updated with value 36072
-19-11-2024 23:32:30 - INFO - Starting container qbittorrent
-19-11-2024 23:32:30 - INFO - Container successfully started!
-19-11-2024 23:32:30 - INFO - qBittorrent Port Update completed
-20-11-2024 02:34:25 - INFO - qBittorrent Port Update started...
-20-11-2024 02:34:25 - INFO - Verifying the presence of /srv/gluetun/forwarded_port
-20-11-2024 02:34:25 - INFO - Found /srv/gluetun/forwarded_port
-20-11-2024 02:34:25 - INFO - Verifying the presence of /srv/qBittorrent/qBittorrent.conf
-20-11-2024 02:34:25 - INFO - Found /srv/qBittorrent/qBittorrent.conf
-20-11-2024 02:34:25 - INFO - Fetching port from /srv/gluetun/forwarded_port
-20-11-2024 02:34:25 - INFO - Forward port is 36072
-20-11-2024 02:34:25 - INFO - Reading qBittorrent config file: /srv/qBittorrent/qBittorrent.conf
-20-11-2024 02:34:25 - INFO - Session\Port=36072
-20-11-2024 02:34:25 - INFO - Forward port is unchanged! No changes made to qBittorrent.conf
-20-11-2024 02:34:25 - INFO - qBittorrent Port Update completed
+------------------------------------------------------------------------------------------------------
+qBittorrent Port Update
+v.2.1.0
+CREATE_LOG_FILE=yes
+CRON_SCHEDULE=*/15 * * * *
+GLUETUN_IP=127.0.0.1
+GLUETUN_PORT=8000
+LOGFILE=/config/qbt_port_update.log
+LOGTIMEFORMAT=%d-%m-%Y %H:%M:%S
+PATH_GLUETUN=/config/gluetun/forwarded_port
+PATH_QBITTORRENT=/config/qBittorrent/qBittorrent.conf
+QBT_CONTAINER_ID=qbittorrent
+TZ=Europe/Oslo
+------------------------------------------------------------------------------------------------------
+23-11-2024 02:02:18 - INFO - qBittorrent Port Update started...
+23-11-2024 02:02:18 - INFO - Fetching forwarded port from Gluetun Control Server on IP: 10.0.0.9:8001
+23-11-2024 02:02:18 - INFO - Forwarded port is 43253
+23-11-2024 02:02:18 - INFO - Reading qBittorrent config file: /config/qBittorrent/qBittorrent.conf
+23-11-2024 02:02:18 - INFO - Session\Port=62080
+23-11-2024 02:02:18 - INFO - Forwarded port has changed! Updating qBittorrent.conf
+23-11-2024 02:02:18 - INFO - Stopping container qbittorrent
+23-11-2024 02:02:28 - INFO - Container successfully stopped!
+23-11-2024 02:02:28 - INFO - Session\Port updated with value 43253
+23-11-2024 02:02:28 - INFO - Starting container qbittorrent
+23-11-2024 02:02:29 - INFO - Container successfully started!
+23-11-2024 02:02:29 - INFO - qBittorrent Port Update completed
 ```
