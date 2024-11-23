@@ -99,7 +99,6 @@ The creates by default i logfile updates.log in the scripts directory. You can m
 
 Log sample: 
 ```
-------------------------------------------------------------------------------------------------------
 23-11-2024 02:02:18 - INFO - qBittorrent Port Update started...
 23-11-2024 02:02:18 - INFO - Fetching forwarded port from Gluetun Control Server on IP: 10.0.0.9:8001
 23-11-2024 02:02:18 - INFO - Forwarded port is 43253
