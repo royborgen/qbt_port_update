@@ -87,10 +87,10 @@ QBT_CONTAINER_ID=qbittorrent
 - `PUID` and `PGID` allow you to control which user and group that owns the config folder and the `qbt_port_update.log` file. If not provided, the default value of `0` (root) is used, ensuring that only the root user has ownership and access. This is ideal when running containers with different users on the system to avoid conflicting ownership. If you want to assign ownership to a specific non-root user (e.g., `1000`), you can provide the respective PUID and PGID values.
 
 >[!Note]<br>
->Control Server IPStarting from Gluetun v.4.0.0, the forwarded_port file will be deprecated. From this version we must fetch the forwarded port from the Gluetun Control Server. See [Gluetun GitHub](https://github.com/qdm12/gluetun-wiki/blob/main/setup/>advanced/vpn-port-forwarding.md) for more information. The feature is already implemented in qBittorrent Port Update. 
+>Starting from Gluetun v.4.0.0, the forwarded_port file will be deprecated. From this version we must fetch the forwarded port from the Gluetun Control Server. See [Gluetun GitHub](https://github.com/qdm12/gluetun-wiki/blob/main/setup/>advanced/vpn-port-forwarding.md) for more information. The feature is already implemented in qBittorrent Port Update by utilizing `GLUETUN_IP` and `GLUETUN_PORT`. 
 
 >[!CAUTION]<br>
-If you are running qBittorrent Port Update in docker, it is recommended leave `PATH_GLUETUN` and `PATH_QBITTORRENT` with their default value. Instead of changing these you should edit the container volumes as these control the location of the qBittorrent config file and the Gluetun forwarded_port filer. 
+If you are running qBittorrent Port Update in docker, it is recommended leave `PATH_GLUETUN` and `PATH_QBITTORRENT` with their default value. Instead of changing these you should edit the container volumes as these control the location of the qBittorrent config file and the Gluetun forwarded_port file. 
 
 
 ## Logging
@@ -98,19 +98,6 @@ The creates by default i logfile updates.log in the scripts directory. You can m
 
 Log sample: 
 ```
-------------------------------------------------------------------------------------------------------
-qBittorrent Port Update
-v.2.1.0
-CREATE_LOG_FILE=yes
-CRON_SCHEDULE=*/15 * * * *
-GLUETUN_IP=127.0.0.1
-GLUETUN_PORT=8000
-LOGFILE=/config/qbt_port_update.log
-LOGTIMEFORMAT=%d-%m-%Y %H:%M:%S
-PATH_GLUETUN=/config/gluetun/forwarded_port
-PATH_QBITTORRENT=/config/qBittorrent/qBittorrent.conf
-QBT_CONTAINER_ID=qbittorrent
-TZ=Europe/Oslo
 ------------------------------------------------------------------------------------------------------
 23-11-2024 02:02:18 - INFO - qBittorrent Port Update started...
 23-11-2024 02:02:18 - INFO - Fetching forwarded port from Gluetun Control Server on IP: 10.0.0.9:8001
@@ -124,4 +111,11 @@ TZ=Europe/Oslo
 23-11-2024 02:02:28 - INFO - Starting container qbittorrent
 23-11-2024 02:02:29 - INFO - Container successfully started!
 23-11-2024 02:02:29 - INFO - qBittorrent Port Update completed
+23-11-2024 02:15:02 - INFO - qBittorrent Port Update started...
+23-11-2024 02:15:02 - INFO - Fetching forwarded port from Gluetun Control Server on IP: 10.0.0.9:8001
+23-11-2024 02:15:02 - INFO - Forwarded port is 43253
+23-11-2024 02:15:02 - INFO - Reading qBittorrent config file: /config/qBittorrent/qBittorrent.conf
+23-11-2024 02:15:02 - INFO - Session\Port=43253
+23-11-2024 02:15:02 - INFO - Forwarded port is unchanged! No changes made to qBittorrent.conf
+23-11-2024 02:15:02 - INFO - qBittorrent Port Update completed
 ```
