@@ -6,6 +6,51 @@ import docker
 import requests
 from datetime import datetime
 
+#A function that checks execution arguments and exits
+def checkargs():
+    script_name = "qBittorrent Port Update"
+    version = "2.1.0"
+    if len(sys.argv) !=1:
+        if sys.argv[1] == "--help" or sys.argv[1] == "-h":
+            print(f"Usage: {sys.argv[0]} [OPTION]")
+            print("Fetches the forwarded port from a running Gluetun container and")
+            print("dynamically updates the qBittorrent container's configuration to use this port.")
+            print("")
+            print("-v, --version   Display version information")
+            print("-h, --help      Display this help text")
+            print("")
+            exit()
+
+        if  sys.argv[1] == "--version" or sys.argv[1] == "-v":
+            print(f"{script_name}")
+            print(f"v.{version}")
+            print("")
+            exit()
+
+        print(f"Usage: {sys.argv[0]} [OPTION]")
+        print("Fetches the forwarded port from a running Gluetun container and")
+        print("dynamically updates the qBittorrent container's configuration to use this port.")
+        print("")
+        exit()
+    
+
+#A function that tries to read port_update.conf from the scripts execution folder or /config
+def readConfigFile():
+    config = configparser.ConfigParser(interpolation=None)
+    
+    #config file in scripts execution folder will be prioritized
+    if os.path.isfile("./port_update.conf"):
+        config.read("./port_update.conf")
+        return config
+    
+    #check if there is a config file in /config (docker containers configuration folder) 
+    if os.path.isfile("/config/port_update.conf"):
+        config.read("/config/port_update.conf")
+        return config
+    
+    return False
+   
+
 #A functon that prints and logs to file
 def log(log_type, line):
     envvars = check_envvars()
@@ -14,12 +59,8 @@ def log(log_type, line):
         logfile = os.environ['LOGFILE']
         timeformat = os.environ['LOGTIMEFORMAT']
     else: 
-        config = configparser.ConfigParser(interpolation=None)
-        if os.path.isfile("./port_update.conf"):
-            config.read("./port_update.conf")
-        else: 
-            config.read("/config/port_update.conf")
-       
+        config = readConfigFile()
+
         createLogFile = config["logging"]["createLogFile"]
         timeformat = config["logging"]["logTimeFormat"]
         logfile = config["logging"]["logfile"]
@@ -67,57 +108,58 @@ def check_envvars():
 
 #A function that checks values in the config file
 def check_config():
-    config = configparser.ConfigParser()
-    
-    if os.path.isfile("./port_update.conf"):
-        config.read("./port_update.conf")
-    else: 
-        config.read("/config/port_update.conf")
-
-    sections = ['paths', 'docker', 'gluetun', 'logging']
-    gluetun_options = ['gluetun_ip', 'gluetun_port']
-    logging_options = ['createlogfile', 'logfile', 'logtimeformat']
-    paths_options = ['gluetub', 'qbittorrent']
-    docker_options = ['container_id']
-    
-    for section in sections: 
-        #has_section = config.has_section(section)
-        match section: 
-            case "paths":
-                for option in paths_options: 
-                    has_option = config.has_option(section, option)
-                    if not has_option: 
-                        if option == "gluetun": 
-                            has_option = config.has_option("gluetun", "ip")
-                            if not has_option: 
-                                return False
-                            has_option = config.has_option("gluetun", "port")
-                            if not has_option: 
-                                return False
-                        if option == "qbittorrent":
-                            return False
-            
-            case "docker": 
-                for option in docker_options: 
-                    has_option = config.has_option(section, option)
-                    if not has_option:
-                        return False
-
-            case "gluetun": 
-                for option in gluetun_options: 
-                    has_option = config.has_option(section, option)
-                    if not has_option: 
-                        has_option = config.has_option("paths", "gluetun")
-                        if not has_option: 
-                            return False
-
-            case "logging": 
-                for option in logging_options: 
-                    has_option = config.has_option(section, option)
-                    if not has_option:
-                        return False
+    #Try to read config file
+    config = readConfigFile()
+    if config: 
+        sections = ['paths', 'docker', 'gluetun', 'logging']
+        gluetun_options = ['gluetun_ip', 'gluetun_port']
+        logging_options = ['createlogfile', 'logfile', 'logtimeformat']
+        paths_options = ['gluetub', 'qbittorrent']
+        docker_options = ['container_id']
         
-    return True
+        for section in sections: 
+            #has_section = config.has_section(section)
+            match section: 
+                case "paths":
+                    for option in paths_options: 
+                        has_option = config.has_option(section, option)
+                        if not has_option: 
+                            if option == "gluetun": 
+                                has_option = config.has_option("gluetun", "ip")
+                                if not has_option: 
+                                    return False
+                                has_option = config.has_option("gluetun", "port")
+                                if not has_option: 
+                                    return False
+                            if option == "qbittorrent":
+                                return False
+                
+                case "docker": 
+                    for option in docker_options: 
+                        has_option = config.has_option(section, option)
+                        if not has_option:
+                            return False
+
+                case "gluetun": 
+                    for option in gluetun_options: 
+                        has_option = config.has_option(section, option)
+                        if not has_option: 
+                            has_option = config.has_option("paths", "gluetun")
+                            if not has_option: 
+                                return False
+
+                case "logging": 
+                    for option in logging_options: 
+                        has_option = config.has_option(section, option)
+                        if not has_option:
+                            return False
+        
+        #Config file looks good
+        return True
+    else: 
+        #unable to read config file
+        return False
+
 
 #a function that checks if file paths exist
 def file_exist(filepath):
@@ -169,11 +211,7 @@ def update_port():
             gluetun_path = False 
     else: 
         #if not, read from config file and check 
-        config = configparser.ConfigParser()
-        if os.path.isfile('./port_update.conf'): 
-            config.read("./port_update.conf")
-        else:
-            config.read("/config/port_update.conf")
+        config = readConfigFile()
         
         qbt_path = config["paths"]["qbittorrent"]
         
@@ -283,31 +321,10 @@ def docker_qbittorrent(action, container_id):
 
 
 def main():
-    script_name = "qBittorrent Port Update"
-    version = "2.1.0"
-    if len(sys.argv) !=1:
-        if sys.argv[1] == "--help" or sys.argv[1] == "-h":
-            print(f"Usage: {sys.argv[0]} [OPTION]")
-            print("Fetches the forwarded port from a running Gluetun container and")
-            print("dynamically updates the qBittorrent container's configuration to use this port.")
-            print("")
-            print("-v, --version   Display version information")
-            print("-h, --help      Display this help text")
-            print("")
-            exit()
 
-        if  sys.argv[1] == "--version" or sys.argv[1] == "-v":
-            print(f"{script_name}")
-            print(f"v.{version}")
-            print("")
-            exit()
+    #check arguments, print helptext and exit if invalid
+    checkargs()
 
-        print(f"Usage: {sys.argv[0]} [OPTION]")
-        print("Fetches the forwarded port from a running Gluetun container and")
-        print("dynamically updates the qBittorrent container's configuration to use this port.")
-        print("")
-        exit()
-    
     # Get the absolute path to the directory containing the script
     script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -315,8 +332,9 @@ def main():
     os.chdir(script_dir)
     
     if not check_config() and not check_envvars():
-            print("Unable to read configuration file port_update.conf")
-            print("Unable to read needed environment variables")
+            print("Unable to read qBittorrent Port Update configuration!")
+            print("Configuration can be set in port_update.conf or as enviroment variables.") 
+            print("See https://github.com/royborgen/qbt_port_update for more information.")  
             SystemExit()
     else: 
         log("info", f"qBittorrent Port Update started...")  
