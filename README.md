@@ -100,7 +100,7 @@ The creates by default i logfile updates.log in the scripts directory. You can m
 Log sample: 
 ```
 23-11-2024 02:02:18 - INFO - qBittorrent Port Update started...
-23-11-2024 02:02:18 - INFO - Fetching forwarded port from Gluetun Control Server on IP: 10.0.0.9:8001
+23-11-2024 02:02:18 - INFO - Fetching forwarded port from Gluetun Control Server on IP: 127.0.0.1:8000
 23-11-2024 02:02:18 - INFO - Forwarded port is 43253
 23-11-2024 02:02:18 - INFO - Reading qBittorrent config file: /config/qBittorrent/qBittorrent.conf
 23-11-2024 02:02:18 - INFO - Session\Port=62080
@@ -112,7 +112,7 @@ Log sample:
 23-11-2024 02:02:29 - INFO - Container successfully started!
 23-11-2024 02:02:29 - INFO - qBittorrent Port Update completed
 23-11-2024 02:15:02 - INFO - qBittorrent Port Update started...
-23-11-2024 02:15:02 - INFO - Fetching forwarded port from Gluetun Control Server on IP: 10.0.0.9:8001
+23-11-2024 02:15:02 - INFO - Fetching forwarded port from Gluetun Control Server on IP: 127.0.0.1:8000
 23-11-2024 02:15:02 - INFO - Forwarded port is 43253
 23-11-2024 02:15:02 - INFO - Reading qBittorrent config file: /config/qBittorrent/qBittorrent.conf
 23-11-2024 02:15:02 - INFO - Session\Port=43253
