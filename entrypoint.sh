@@ -10,8 +10,8 @@ chown -R $PUID:$PGID /config
 # Ensure the cron job has correct permissions and ownership
 chmod 0644 /etc/cron.d/qbt_port_update
 
-# Replace the entire cron line with the new cron schedule and user (appuser)
-sed -i "s|^.*/venv|$CRON_SCHEDULE   /venv|" /etc/cron.d/qbt_port_update
+# Replace the cron schedule but keep @reboot intact
+sed -i "s|^\*/15 \* \* \* \*.*|$CRON_SCHEDULE   /venv/bin/python /usr/local/bin/qbt_port_update.py >> /proc/1/fd/1 2>> /proc/1/fd/2|" /etc/cron.d/qbt_port_update
 
 # Write environment variables to a file
 printenv | grep -E "GLUETUN|QBITTORRENT|QBT|LOG|CRON|TZ" | sort > /etc/environment

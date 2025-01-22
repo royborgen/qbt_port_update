@@ -9,7 +9,7 @@ from datetime import datetime
 #A function that checks execution arguments and exits
 def checkargs():
     script_name = "qBittorrent Port Update"
-    version = "2.1.0"
+    version = "2.1.1"
     if len(sys.argv) !=1:
         if sys.argv[1] == "--help" or sys.argv[1] == "-h":
             print(f"Usage: {sys.argv[0]} [OPTION]")
@@ -282,11 +282,15 @@ def update_port():
     # Write the modified contents back to the file
     if update == True: 
         docker_qbittorrent("stop", container_id)
-               
-        with open(qbt_path, 'w') as file:
-            file.writelines(updated_lines)
+        try:        
+            with open(qbt_path, 'w') as file:
+                file.writelines(updated_lines)
 
-        log("info", f"Session\\Port updated with value {port}") 
+            log("info", f"Session\\Port updated with value {port}") 
+        
+        except Exception as e:
+            log("error", f"Error writing to qBittorrent.conf: {str(e)}")
+            
         docker_qbittorrent("start", container_id)
 
     if found_qbt_port == False: 
