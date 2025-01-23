@@ -5,7 +5,7 @@ services:
     volumes:
       - /srv/qbt-port-update:/config
       - /srv/gluetun/forwarded_port:/config/gluetun/forwarded_port:rw
-      - /srv/qBittorrent/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf:rw
+      - /srv/qBittorrent:/config/qBittorrent
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - TZ=Europe/Oslo
