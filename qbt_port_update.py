@@ -4,6 +4,7 @@ import os
 import configparser
 import docker
 import requests
+import time
 from datetime import datetime
 
 #A function that checks execution arguments and exits
@@ -175,19 +176,35 @@ def file_exist(filepath):
 def check_gluetun_port(gluetun_path, ip, port):
     if gluetun_path:
         log("info", f"Fetching port from {gluetun_path}")
-        with open(gluetun_path, 'r') as file:
-            port = str(file.readline().strip())
-            return port
+        try: 
+
+            with open(gluetun_path, 'r') as file:
+                port = str(file.readline().strip())
+        
+        except Exception as e:
+            log("error", f"Unable to fetch port from {gluetun_path}: {str(e)}")
+            exit()
+
+        return port
 
     else: 
         log("info", f"Fetching forwarded port from Gluetun Control Server on IP: {ip}:{port}")
-        response = requests.get(f'http://{ip}:{port}/v1/openvpn/portforwarded')
+        
+        try: 
+            response = requests.get(f'http://{ip}:{port}/v1/openvpn/portforwarded')
+
+       
+        except Exception as e:
+            log("error", f"Unable to fetch forwarded port from Gluetun Control Server: {str(e)}")
+            exit()
+        
         if response.status_code == 200:
             data = response.json()
             port = data['port']
             return port
         else:
             return False
+ 
 
 #The function that updates the port. It reads both config files and compares value and updates.    
 def update_port():
@@ -233,13 +250,15 @@ def update_port():
     if gluetun_ip:
         port = check_gluetun_port("", gluetun_ip, gluetun_port)
         if not port:
-            log("ERROR", f"Unable to fetch port from qBittorrent config file: {qbt_path}")
-            port = check_gluetun_port(gluetun_path, "", "")
+            log("ERROR", f"Unable to fetch port from Gluetun Control Server")
+            exit()
+            #port = check_gluetun_port(gluetun_path, "", "")
     else: 
         port = check_gluetun_port(gluetun_path, "", "")
         
     if not port: 
-        log("ERROR", f"Unable to fetch forwarded port from Gluetun")   
+        log("ERROR", f"Unable to fetch forwarded port from Gluetun")
+        exit()
 
     else: 
         log("info", f"Forwarded port is {port}")   
