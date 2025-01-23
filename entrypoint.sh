@@ -1,11 +1,14 @@
 #!/bin/bash
 
 # Set default values for HOST_UID and HOST_GID if not set
-: ${PUID:=0}
-: ${PGID:=0}
+#: ${PUID:=0}
+#: ${PGID:=0}
 
 # Ensure /config and its contents are owned by the specified UID and GID
-chown -R $PUID:$PGID /config
+#chown -R $PUID:$PGID /config
+
+# Setting default value of 15 min for cron job
+: ${CRON_SCHEDULE:=*/15 * * * *}
 
 # Ensure the cron job has correct permissions and ownership
 chmod 0644 /etc/cron.d/qbt_port_update
