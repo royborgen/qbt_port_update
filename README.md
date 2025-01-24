@@ -68,7 +68,7 @@ QBT_CONTAINER_ID=qbittorrent
 ```
 
 - `CREATE_LOG_FILE` should only container `yes` or `no`
-- `CRON_SCHEDULE` require the use of correctly formated cron job. 
+- `CRON_SCHEDULE` require the use of correctly formated cron job. If not set the script will execute by default every 15th minute. 
 - `GLUETUN_IP` Required from Gluetun 4.0.0. Needs to contain Gluetun server IP.  
 - `GLUETUN_PORT` is requered from Gluetun v.4.0.0. Need to contain the Gluetun Control Server listening port. `Default port is 8000`. 
 - `LOGTIMEFORMAT` controls the time format of the logfile. This can be adjusted to your liking. 
