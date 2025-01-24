@@ -4,7 +4,6 @@ import os
 import configparser
 import docker
 import requests
-import time
 from datetime import datetime
 
 #A function that checks execution arguments and exits
