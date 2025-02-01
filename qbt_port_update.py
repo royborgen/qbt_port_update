@@ -9,7 +9,7 @@ from datetime import datetime
 #A function that checks execution arguments and exits
 def checkargs():
     script_name = "qBittorrent Port Update"
-    version = "2.1.1"
+    version = "2.1.2"
     if len(sys.argv) !=1:
         if sys.argv[1] == "--help" or sys.argv[1] == "-h":
             print(f"Usage: {sys.argv[0]} [OPTION]")
@@ -88,6 +88,8 @@ def check_envvars():
         2: [
             "GLUETUN_IP",
             "GLUETUN_PORT",
+            "GLUETUN_USER",
+            "GLUETUN_PASS",
             "PATH_QBITTORRENT",
             "QBT_CONTAINER_ID",
             "CREATE_LOG_FILE",
@@ -112,7 +114,7 @@ def check_config():
     config = readConfigFile()
     if config: 
         sections = ['paths', 'docker', 'gluetun', 'logging']
-        gluetun_options = ['gluetun_ip', 'gluetun_port']
+        gluetun_options = ['gluetun_ip', 'gluetun_port', 'gluetun_user', 'gluetun_pass']
         logging_options = ['createlogfile', 'logfile', 'logtimeformat']
         paths_options = ['gluetub', 'qbittorrent']
         docker_options = ['container_id']
@@ -125,10 +127,16 @@ def check_config():
                         has_option = config.has_option(section, option)
                         if not has_option: 
                             if option == "gluetun": 
-                                has_option = config.has_option("gluetun", "ip")
+                                has_option = config.has_option("gluetun", "gluetun_ip")
                                 if not has_option: 
                                     return False
-                                has_option = config.has_option("gluetun", "port")
+                                has_option = config.has_option("gluetun", "gluetun_port")
+                                if not has_option: 
+                                    return False
+                                has_option = config.has_option("gluetun", "gluetun_user")
+                                if not has_option: 
+                                    return False
+                                has_option = config.has_option("gluetun", "gluetun_pass")
                                 if not has_option: 
                                     return False
                             if option == "qbittorrent":
@@ -172,7 +180,7 @@ def file_exist(filepath):
         return False
 
 
-def check_gluetun_port(gluetun_path, ip, port):
+def check_gluetun_port(gluetun_path, gluetun_ip, gluetun_port, gluetun_user, gluetun_pass):
     if gluetun_path:
         log("info", f"Fetching port from {gluetun_path}")
         try: 
@@ -187,20 +195,28 @@ def check_gluetun_port(gluetun_path, ip, port):
         return port
 
     else: 
-        log("info", f"Fetching forwarded port from Gluetun Control Server on IP: {ip}:{port}")
+        
+        log("info", f"Fetching forwarded port from Gluetun Control Server on IP: {gluetun_ip}:{gluetun_port}")
         
         try: 
-            response = requests.get(f'http://{ip}:{port}/v1/openvpn/portforwarded')
-
+            response = requests.get(f'http://{gluetun_ip}:{gluetun_port}/v1/openvpn/portforwarded', auth=(gluetun_user, gluetun_pass))
        
         except Exception as e:
             log("error", f"Unable to fetch forwarded port from Gluetun Control Server: {str(e)}")
             exit()
-        
+
         if response.status_code == 200:
             data = response.json()
             port = data['port']
             return port
+
+        if response.status_code == 401:
+            log("error", f"Unable to fetch forwarded port from Gluetun Control Server: 401 Unauthorized")
+            exit()
+        
+        if response.status_code == 403:
+            log("error", f"Unable to fetch forwarded port from Gluetun Control Server: 403 Forbidden")
+            exit()
         else:
             return False
  
@@ -215,6 +231,8 @@ def update_port():
         try: 
             gluetun_ip = os.environ['GLUETUN_IP']
             gluetun_port = os.environ['GLUETUN_PORT']
+            gluetun_user = os.environ['GLUETUN_USER']
+            gluetun_pass = os.environ['GLUETUN_PASS']
         except: 
             gluetun_path = os.environ['PATH_GLUETUN']
             gluetun_ip = False 
@@ -224,6 +242,8 @@ def update_port():
         except: 
             gluetun_ip = os.environ['GLUETUN_IP']
             gluetun_port = os.environ['GLUETUN_PORT']
+            gluetun_user = os.environ['GLUETUN_USER']
+            gluetun_pass = os.environ['GLUETUN_PASS']
             gluetun_path = False 
     else: 
         #if not, read from config file and check 
@@ -235,6 +255,8 @@ def update_port():
         try: 
             gluetun_ip = config["gluetun"]["gluetun_ip"]
             gluetun_port = config["gluetun"]["gluetun_port"]
+            gluetun_user = config["gluetun"]["gluetun_user"]
+            gluetun_pass = config["gluetun"]["gluetun_pass"]
         except: 
             gluetun_path = config["paths"]["gluetun"]
             gluetun_ip = False
@@ -247,13 +269,13 @@ def update_port():
     
 
     if gluetun_ip:
-        port = check_gluetun_port("", gluetun_ip, gluetun_port)
+        port = check_gluetun_port("", gluetun_ip, gluetun_port, gluetun_user, gluetun_pass)
         if not port:
             log("ERROR", f"Unable to fetch port from Gluetun Control Server")
             exit()
             #port = check_gluetun_port(gluetun_path, "", "")
     else: 
-        port = check_gluetun_port(gluetun_path, "", "")
+        port = check_gluetun_port(gluetun_path, "", "", "", "")
         
     if not port: 
         log("ERROR", f"Unable to fetch forwarded port from Gluetun")

@@ -31,7 +31,7 @@ cron
 # Run the Python script immediately
 echo "-----------------------------------------------------------------------------------------------------"
 /venv/bin/python /usr/local/bin/qbt_port_update.py -v
-cat /etc/environment
+(cat /etc/environment | grep -v PASS; grep "PASS" /etc/environment | sed 's/\([A-Z_]*_PASS=\)[^ ]*/\1**************/') | sort
 echo "-----------------------------------------------------------------------------------------------------"
 /venv/bin/python /usr/local/bin/qbt_port_update.py >> /proc/1/fd/1 2>> /proc/1/fd/2
 
