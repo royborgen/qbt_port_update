@@ -81,7 +81,7 @@ QBT_CONTAINER_ID=qbittorrent
 - `PUID` and `PGID` allow you to control which user and group that owns the config folder and the `qbt_port_update.log` file. If not provided, the id of the user running the container is used. Changing this is useful when running containers with different users on the system to avoid conflicting ownership. If you want to assign ownership to a specific non-root user (e.g., `1000`), you can provide the respective PUID and PGID values.
 
 >[!Note]<br>
->Starting from Gluetun v.4.0.0, the forwarded_port file will be deprecated. From this version we must fetch the forwarded port from the Gluetun Control Server. This will requre you to set up a API username and password using basic auth. See [Gluetun GitHub](https://github.com/qdm12/gluetun-wiki/blob/main/setup/advanced/control-server.md#authentication) for more information. The feature is already implemented in qBittorrent Port Update by utilizing `GLUETUN_IP`, `GLUETUN_PORT`, .`GLUETUN_USER` and `GLUETUN_PASS`, 
+>Starting from Gluetun v.4.0.0, the forwarded_port file will be deprecated. From this version we must fetch the forwarded port from the Gluetun Control Server. qBittorrent Port Update already supports this, however from Gluetun 3.40.0 you will need configure basic auth with Gluetun in order for qBittorrent Port Update to be able to fetch the forward port from the Control Server. See [Gluetun GitHub](https://github.com/qdm12/gluetun-wiki/blob/main/setup/advanced/control-server.md#authentication) for more information. The feature is already implemented in qBittorrent Port Update by utilizing `GLUETUN_IP`, `GLUETUN_PORT`, .`GLUETUN_USER` and `GLUETUN_PASS`, 
 
 
 >[!CAUTION]<br>
