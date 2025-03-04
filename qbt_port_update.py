@@ -333,7 +333,7 @@ def update_port():
             exit()
             
         
-        docker_qbittorrent("start", container_id): 
+        docker_qbittorrent("start", container_id) 
         
 
     if found_qbt_port == False: 
