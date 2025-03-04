@@ -361,7 +361,10 @@ def docker_qbittorrent(action, container_id):
     except docker.errors.NotFound:
         log("error", f"Container {container_id} not found")
     except Exception as e:
-        log("error", f"Error {action}ing container {container_id}: {str(e)}")
+        if action == "stop": 
+            log("error", f"Error stopping container {container_id}: {str(e)}")
+        else: 
+            log("error", f"Error {action}ing container {container_id}: {str(e)}")
 
 
 def main():
