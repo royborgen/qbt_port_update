@@ -330,12 +330,15 @@ def update_port():
         
         except Exception as e:
             log("error", f"Error writing to qBittorrent.conf: {str(e)}")
+            exit()
             
-        docker_qbittorrent("start", container_id)
+        
+        docker_qbittorrent("start", container_id): 
+        
 
     if found_qbt_port == False: 
         log("error", f"Could not find Session\\Port in qBittorrent.conf")   
-
+        exit()
 
 #a function that stops, starts or restarts a docker containers
 def docker_qbittorrent(action, container_id):
@@ -357,14 +360,19 @@ def docker_qbittorrent(action, container_id):
                 log("info", f"Restarting container {container_id}") 
                 container.restart()
                 log("info", f"Container successfully restarted!")
-    
+        
+        
     except docker.errors.NotFound:
         log("error", f"Container {container_id} not found")
+        exit()    
+    
     except Exception as e:
         if action == "stop": 
             log("error", f"Error stopping container {container_id}: {str(e)}")
         else: 
             log("error", f"Error {action}ing container {container_id}: {str(e)}")
+
+        exit()    
 
 
 def main():
