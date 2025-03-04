@@ -19,10 +19,10 @@ Most VPN providers do not allow setting a static forwarded port, causing the for
     - os library installed 
     - requests library installed
     - docker library installed
-3. Modify `port_update.conf` and set correct paths. 
+3. Rename `port_update.conf.example` to `port_update.conf` and set correct paths. 
 
 ## Configuration
-See `port_update.config` for configuration options. alternativly you can set the needed configuration parameters as environment variables.
+See `port_update.conf.example` for configuration options. alternativly you can set the needed configuration parameters as environment variables.
 The file `setenvs.sh` contains all needed variables. Modify it as needed and execute the script by running 
 `. ./setenvs.sh`. The leading dot (.) ensures that the script is sourced into the current shell session, making 
 the environment available for the python script. 
