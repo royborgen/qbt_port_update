@@ -9,7 +9,7 @@ from datetime import datetime
 #A function that checks execution arguments and exits
 def checkargs():
     script_name = "qBittorrent Port Update"
-    version = "2.1.3"
+    version = "2.1.4"
     if len(sys.argv) !=1:
         if sys.argv[1] == "--help" or sys.argv[1] == "-h":
             print(f"Usage: {sys.argv[0]} [OPTION]")
