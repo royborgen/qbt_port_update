@@ -1,5 +1,5 @@
 # Use an official Debian Bookworm image
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 
 # Install cron, Python, and other necessary dependencies
 RUN apt-get update && apt-get upgrade -y && \
