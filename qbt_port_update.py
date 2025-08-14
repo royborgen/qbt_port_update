@@ -311,7 +311,7 @@ def update_port():
             found_qbt_port = True
             if old_port != port:
                 update = True
-                updated_line = f"Session\Port={port}\n"
+                updated_line = f"Session\\Port={port}\n"
                 updated_lines.append(updated_line)
                 log("info", f"Forwarded port has changed! Updating qBittorrent.conf") 
             else:
