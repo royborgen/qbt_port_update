@@ -9,7 +9,7 @@ from datetime import datetime
 #A function that checks execution arguments and exits
 def checkargs():
     script_name = "qBittorrent Port Update"
-    version = "2.1.4"
+    version = "2.1.5"
     if len(sys.argv) !=1:
         if sys.argv[1] == "--help" or sys.argv[1] == "-h":
             print(f"Usage: {sys.argv[0]} [OPTION]")
@@ -199,7 +199,7 @@ def check_gluetun_port(gluetun_path, gluetun_ip, gluetun_port, gluetun_user, glu
         log("info", f"Fetching forwarded port from Gluetun Control Server on IP: {gluetun_ip}:{gluetun_port}")
         
         try: 
-            response = requests.get(f'http://{gluetun_ip}:{gluetun_port}/v1/openvpn/portforwarded', auth=(gluetun_user, gluetun_pass))
+            response = requests.get(f'http://{gluetun_ip}:{gluetun_port}/v1/portforward', auth=(gluetun_user, gluetun_pass))
        
         except Exception as e:
             log("error", f"Unable to fetch forwarded port from Gluetun Control Server: {str(e)}")
