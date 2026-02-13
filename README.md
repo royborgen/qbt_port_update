@@ -76,7 +76,7 @@ QBT_CONTAINER_ID=qbittorrent
 - `GLUETUN_USER` Username for the Gluetun Control Server API. Required from Gluetun 3.40.0.   
 - `GLUETUN_PASS` Password for the Gluetun Control Server API. Required from Gluetun 3.40.0.   
 - `LOGTIMEFORMAT` controls the time format of the logfile. This can be adjusted to your liking. 
-- `CONTAINER_ID` must container name or ID of the qBittorrent container you are running. This is needed so that we can restart the container.
+- `CONTAINER_ID` Container name or ID of the qBittorrent container you are running. This is needed so that we can restart the container.
 - `TZ` allows you to set the time zone displayed in the log. For a complete overview of timezones, see the section `TZ identifiers` on [list of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) available on Wikipedia.
 - `PUID` and `PGID` allow you to control which user and group that owns the config folder and the `qbt_port_update.log` file. If not provided, the id of the user running the container is used. Changing this is useful when running containers with different users on the system to avoid conflicting ownership. If you want to assign ownership to a specific non-root user (e.g., `1000`), you can provide the respective PUID and PGID values.
 
