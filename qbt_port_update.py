@@ -116,7 +116,7 @@ def check_config():
         sections = ['paths', 'docker', 'gluetun', 'logging']
         gluetun_options = ['gluetun_ip', 'gluetun_port', 'gluetun_user', 'gluetun_pass']
         logging_options = ['createlogfile', 'logfile', 'logtimeformat']
-        paths_options = ['gluetub', 'qbittorrent']
+        paths_options = ['gluetun', 'qbittorrent']
         docker_options = ['container_id']
         
         for section in sections: 
